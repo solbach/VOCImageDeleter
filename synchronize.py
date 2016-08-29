@@ -18,7 +18,15 @@ def printResults():
     print "##############"
     return
 
-print "Pascal VOC style data-set synchronizer \n"
+def checkCNNsufficiency(anFiles):
+    if len(anFiles) < 200:
+        print "\nYou have less than 200 images in the data-set. (%i)" % len(anFiles)
+        print "Are you sure you wanna keep it?"
+    else:
+        print "data-set has enough training-images"
+    return
+
+print "Pascal VOC style data-set synchronizer"
 
 # Path to folder containing subdir 'Annotations' and 'JPEGImages'
 path = "Test"
@@ -37,7 +45,6 @@ for ele in imFiles:
     eleClean = ele[start:end]
     imFilesName.append(eleClean)
     found = 0
-    # check if annotation file exist
     for anEl in anFiles:
         ex = anEl.find(eleClean)
         if ex != -1:
@@ -47,3 +54,4 @@ for ele in imFiles:
         removeFile(ele)
 
 printResults()
+checkCNNsufficiency(anFiles)
