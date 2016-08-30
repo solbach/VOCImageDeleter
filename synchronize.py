@@ -1,5 +1,6 @@
-import glob
 import os
+import sys
+import glob
 
 totalDel = 0
 
@@ -10,6 +11,13 @@ def removeFile(filename):
         totalDel = totalDel + 1
     else:
         print ">> " + filename + " <<" + " does not exist. Skip!"
+    return
+
+def checkPath(path):
+    if not os.path.isdir(path):
+        print ">> " + path + " <<" + " does not exist."
+        print "exit"
+        sys.exit()
     return
 
 def printResults():
@@ -26,12 +34,25 @@ def checkCNNsufficiency(anFiles):
         print "data-set has enough training-images"
     return
 
+print "\n##############"
 print "Pascal VOC style data-set synchronizer"
+print "##############"
+
+if len(sys.argv) < 2:
+    print "\nNot enough arguments (%i)" %len(sys.argv)
+    print "Usage: synchronize.py <folder>"
+    print "<folder> needs subfolders: Annotations with .xml and JPEGImages .JPEG"
+    print "exit"
+    sys.exit()
 
 # Path to folder containing subdir 'Annotations' and 'JPEGImages'
-path = "Test"
-pathAn = path + "/Annotation/*.xml"
-pathIm = path + "/JPEGImages/*.JPEG"
+path = str(sys.argv[1])
+pathAn = path + "Annotation/*.xml"
+pathIm = path + "JPEGImages/*.JPEG"
+
+# Check for Annotation and JPEGImages subfolders
+checkPath(path + "Annotation/")
+checkPath(path + "JPEGImages/")
 
 anFiles = glob.glob(pathAn)
 imFiles = glob.glob(pathIm)
@@ -50,8 +71,10 @@ for ele in imFiles:
         if ex != -1:
             found = 1
     if found != 1:
-        print "Deleted >>" + ele
+        print "Deleted: " + ele
         removeFile(ele)
 
 printResults()
+
+# In a veeery early state
 checkCNNsufficiency(anFiles)
