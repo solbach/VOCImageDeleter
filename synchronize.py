@@ -3,6 +3,7 @@ import sys
 import glob
 
 totalDel = 0
+totalNotDel = 0
 
 def removeFile(filename):
     if os.path.exists(filename):
@@ -11,6 +12,8 @@ def removeFile(filename):
         totalDel = totalDel + 1
     else:
         print ">> " + filename + " <<" + " does not exist. Skip!"
+        global totalNotDel
+        totalNotDel = totalNotDel + 1
     return
 
 def checkPath(path):
@@ -23,6 +26,8 @@ def checkPath(path):
 def printResults():
     print "\n##############"
     print "Total deleted files: %i" % totalDel
+    if totalNotDel > 0:
+        print "Files not deleted: %i" % totalDel
     print "##############"
     return
 
@@ -57,14 +62,10 @@ checkPath(path + "JPEGImages/")
 anFiles = glob.glob(pathAn)
 imFiles = glob.glob(pathIm)
 
-imFilesName = []
-anFilesName = []
-
 for ele in imFiles:
     start = ele.find('/n') + 1
     end = ele.find('.JPEG', start)
     eleClean = ele[start:end]
-    imFilesName.append(eleClean)
     found = 0
     for anEl in anFiles:
         ex = anEl.find(eleClean)
