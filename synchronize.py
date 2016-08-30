@@ -76,6 +76,5 @@ for ele in imFiles:
         removeFile(ele)
 
 printResults()
-
 # In a veeery early state
 checkCNNsufficiency(anFiles)
