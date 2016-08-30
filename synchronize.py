@@ -68,7 +68,7 @@ for ele in imFiles:
     eleClean = ele[start:end]
     found = 0
     for anEl in anFiles:
-        ex = anEl.find(eleClean)
+        ex = anEl.find(eleClean + ".xml")
         if ex != -1:
             found = 1
     if found != 1:
