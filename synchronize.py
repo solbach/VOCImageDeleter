@@ -36,7 +36,7 @@ def checkCNNsufficiency(anFiles):
         print "\nYou have less than 200 images in the data-set. (%i)" % len(anFiles)
         print "Are you sure you wanna keep it?"
     else:
-        print "data-set has enough training-images"
+        print "Data-set has enough training-images. (%i)" % len(anFiles)
     return
 
 print "\n##############"
