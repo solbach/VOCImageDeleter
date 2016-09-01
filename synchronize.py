@@ -23,8 +23,15 @@ def checkPath(path):
         sys.exit()
     return
 
-def printResults():
+def printResults(pathAn, pathIm):
+    anFiles = glob.glob(pathAn)
+    imFiles = glob.glob(pathIm)
+
     print "\n##############"
+    if not (len(imFiles) - len(anFiles)) == 0:
+        print "Remaining Images: %i" % len(imFiles)
+        print "Remaining Annotations: %i" % len(anFiles)
+        print "---> Should be not different."
     print "Total deleted files: %i" % totalDel
     if totalNotDel > 0:
         print "Files not deleted: %i" % totalDel
@@ -42,6 +49,8 @@ def checkCNNsufficiency(anFiles):
 def init(inputParam):
     print "\n##############"
     print "Pascal VOC style data-set synchronizer"
+    print " by Markus Solbach "
+    print "    solbach@cse.yorku.ca"
     print "##############"
 
     if len(inputParam) < 2:
@@ -104,15 +113,6 @@ for anEl in anFiles:
         count = count + 1
         removeFile(anEl)
 
-print "\n########"
-print "Should delete: \t %i" % ( len(imFiles) - len(anFiles) )
-print "Did delete: \t %i" % count
-if not (count - (len(imFiles) - len(anFiles))) == 0:
-    print "---> Something wrong here."
-else:
-    print "All good!"
-print "########\n"
-
-# printResults()
+printResults(pathAn, pathIm)
 # In a veeery early state
-# checkCNNsufficiency(anFiles)
+checkCNNsufficiency(anFiles)
