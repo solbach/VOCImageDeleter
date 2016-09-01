@@ -84,6 +84,22 @@ for ele in imFiles:
         count = count + 1
         removeFile(ele)
 
+# Aaaand the other way around
+imFiles = glob.glob(pathIm)
+for anEl in anFiles:
+    start = anEl.find('/n') + 1
+    end = anEl.find('xml', start)
+    anElClean = anEl[start:end]
+    found = 0
+    for ele in imFiles:
+        ex = ele.find(anElClean + "JPEG")
+        if ex >= 0:
+            found = 1
+            break
+    if found == 0:
+        print "Deleted: " + anEl
+        count = count + 1
+        removeFile(anEl)
 
 print "\n########"
 print "Should delete: \t %i" % ( len(imFiles) - len(anFiles) )
