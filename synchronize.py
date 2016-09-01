@@ -39,17 +39,22 @@ def checkCNNsufficiency(anFiles):
         print "Data-set has enough training-images. (%i)" % len(anFiles)
     return
 
-print "\n##############"
-print "Pascal VOC style data-set synchronizer"
-print "##############"
+def init(inputParam):
+    print "\n##############"
+    print "Pascal VOC style data-set synchronizer"
+    print "##############"
 
-if len(sys.argv) < 2:
-    print "\nNot enough arguments (%i)" %len(sys.argv)
-    print "Usage: synchronize.py <folder>"
-    print "<folder> needs subfolders: Annotations with .xml and JPEGImages .JPEG"
-    print "exit"
-    sys.exit()
+    if len(inputParam) < 2:
+        print "\nNot enough arguments (%i)" % len(inputParam)
+        print "Usage: synchronize.py <folder>"
+        print "<folder> needs subfolders: Annotations with .xml and JPEGImages .JPEG"
+        print "exit"
+        sys.exit()
+    return
 
+################## Main
+
+init(sys.argv)
 # Path to folder containing subdir 'Annotations' and 'JPEGImages'
 path = str(sys.argv[1])
 pathAn = path + "Annotation/*.xml"
@@ -61,20 +66,34 @@ checkPath(path + "JPEGImages/")
 
 anFiles = glob.glob(pathAn)
 imFiles = glob.glob(pathIm)
-
+count = 0
+# Go over all Images and check if there is a corresponding annotation file
 for ele in imFiles:
     start = ele.find('/n') + 1
-    end = ele.find('.JPEG', start)
+    end = ele.find('JPEG', start)
     eleClean = ele[start:end]
+    # print eleClean
     found = 0
     for anEl in anFiles:
-        ex = anEl.find(eleClean + ".xml")
-        if ex != -1:
+        ex = anEl.find(eleClean + "xml")
+        if ex >= 0:
             found = 1
-    if found != 1:
+            break
+    if found == 0:
         print "Deleted: " + ele
+        count = count + 1
         removeFile(ele)
 
-printResults()
+
+print "\n########"
+print "Should delete: \t %i" % ( len(imFiles) - len(anFiles) )
+print "Did delete: \t %i" % count
+if not (count - (len(imFiles) - len(anFiles))) == 0:
+    print "---> Something wrong here."
+else:
+    print "All good!"
+print "########\n"
+
+# printResults()
 # In a veeery early state
-checkCNNsufficiency(anFiles)
+# checkCNNsufficiency(anFiles)
