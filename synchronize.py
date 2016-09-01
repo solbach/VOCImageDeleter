@@ -67,7 +67,9 @@ checkPath(path + "JPEGImages/")
 anFiles = glob.glob(pathAn)
 imFiles = glob.glob(pathIm)
 count = 0
+
 # Go over all Images and check if there is a corresponding annotation file
+# Aligning JPEG with XML Folder
 for ele in imFiles:
     start = ele.find('/n') + 1
     end = ele.find('JPEG', start)
@@ -84,7 +86,8 @@ for ele in imFiles:
         count = count + 1
         removeFile(ele)
 
-# Aaaand the other way around
+# Aaaaaand the other way around
+# Aligning XML with JPEG Folder
 imFiles = glob.glob(pathIm)
 for anEl in anFiles:
     start = anEl.find('/n') + 1
