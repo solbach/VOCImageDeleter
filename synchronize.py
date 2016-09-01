@@ -23,14 +23,11 @@ def checkPath(path):
         sys.exit()
     return
 
-def printResults(pathAn, pathIm):
-    anFiles = glob.glob(pathAn)
-    imFiles = glob.glob(pathIm)
-
+def printResults(lanFiles, limFiles):
     print "\n##############"
-    if not (len(imFiles) - len(anFiles)) == 0:
-        print "Remaining Images: %i" % len(imFiles)
-        print "Remaining Annotations: %i" % len(anFiles)
+    if not (limFiles - lanFiles) == 0:
+        print "Remaining Images: %i" % limFiles
+        print "Remaining Annotations: %i" % lanFiles
         print "---> Should be not different."
     print "Total deleted files: %i" % totalDel
     if totalNotDel > 0:
@@ -38,12 +35,12 @@ def printResults(pathAn, pathIm):
     print "##############"
     return
 
-def checkCNNsufficiency(anFiles):
-    if len(anFiles) < 200:
-        print "\nYou have less than 200 images in the data-set. (%i)" % len(anFiles)
+def checkCNNsufficiency(lanFiles):
+    if lanFiles < 200:
+        print "\nYou have less than 200 images in the data-set. (%i)" % lanFiles
         print "Are you sure you wanna keep it?"
     else:
-        print "Data-set has enough training-images. (%i)" % len(anFiles)
+        print "Data-set has enough training-images. (%i)" % lanFiles
     return
 
 def init(inputParam):
@@ -113,6 +110,9 @@ for anEl in anFiles:
         count = count + 1
         removeFile(anEl)
 
-printResults(pathAn, pathIm)
+anFiles = glob.glob(pathAn)
+imFiles = glob.glob(pathIm)
+
+printResults(len(anFiles), len(imFiles))
 # In a veeery early state
-checkCNNsufficiency(anFiles)
+checkCNNsufficiency(len(anFiles))
