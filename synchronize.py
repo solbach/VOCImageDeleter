@@ -45,7 +45,7 @@ def checkCNNsufficiency(lanFiles):
 
 def init(inputParam):
     print "\n##############"
-    print "Pascal VOC style data-set synchronizer"
+    print "Pascal VOC style DATA-SET SYNCHRONIZER"
     print " by Markus Solbach "
     print "    solbach@cse.yorku.ca"
     print "##############"
