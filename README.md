@@ -1,1 +1,1 @@
-# VOCImageDeleter
+# VOC Image Deleter
